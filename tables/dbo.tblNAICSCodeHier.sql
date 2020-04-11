@@ -23,19 +23,10 @@ distributed under the same license terms.
  
 ******************************************************************************************************************/
 
-
 USE [DFNB3]
 GO
 
-/****** Object:  Table [dbo].[tblNAICSCodeHier]    Script Date: 11/12/2019 10:02:53 PM ******/
 DROP TABLE [dbo].[tblNAICSCodeHier]
-GO
-
-/****** Object:  Table [dbo].[tblNAICSCodeHier]    Script Date: 11/12/2019 10:02:53 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[tblNAICSCodeHier](
@@ -48,8 +39,5 @@ CREATE TABLE [dbo].[tblNAICSCodeHier](
 	[industry_code] [float] NULL,
 	[industry_desc] [nvarchar](500) NULL,
 	[nation_industry_code] [float] NULL,
-	[nation_industry_desc] [nvarchar](500) NULL
-) ON [PRIMARY]
-GO
-
-
+	[nation_industry_desc] [nvarchar](500) NULL,
+)
