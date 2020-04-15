@@ -36,6 +36,11 @@ RUNTIME:
 NOTES: 
 Load the Date Dimension - inspired by the Kimball Group's Calendar Date Dimension
 
+Example usage...
+
+EXEC dbo.usp_LoadDateDim 250;
+
+
 LICENSE: 
 This code is covered by the GNU General Public License which guarantees end users
 the freedom to run, study, share, and modify the code. This license grants the recipients
@@ -79,65 +84,129 @@ distributed under the same license terms.
 
 --SELECT d.*
 --  FROM RPT.dbo.datedim AS d
--- WHERE d.day_date = format((GETDATE() + n.n), 'yyyy-MM-dd');
+-- WHERE d.day_date = format((@v_first_date + n.n), 'yyyy-MM-dd');
 
 
 
 -- Q3: How to load the Date Dimension
 -- A3: Use dbo.Nums and figure it out
 
+
+
+-- 1) Set the oldest date value
+
+DECLARE @v_first_date as datetime
+
+SET @v_first_date = '1849-12-31'
+
+
+
+-- 2) Reload the base data
+
 TRUNCATE TABLE dbo.DateDim;
 
 INSERT INTO dbo.DateDim
-SELECT TOP 10 
-          --n.n
-            CONVERT(VARCHAR, (GETDATE() + n.n), 112) AS date_id
-           , FORMAT((GETDATE() + n.n), 'yyyy-MM-dd') AS day_date
-           , DATEPART(WEEKDAY, (GETDATE() + n.n)) AS day_number_in_week
-           , DAY((GETDATE() + n.n)) AS day_number_in_month
-           , DATEPART(dayofyear, (GETDATE() + n.n)) AS day_number_in_year
-           , DATENAME(WEEKDAY, (GETDATE() + n.n)) AS day_name
-           , FORMAT((GETDATE() + n.n), 'ddd') AS day_abbreviation
-           , 1 AS process_day_ind
-           , DATENAME(WEEK, (GETDATE() + n.n)) AS week_number_in_year
-           , FORMAT(DATEADD(dd, -(DATEPART(dw, (GETDATE() + n.n)) - 1), (GETDATE() + n.n)), 'yyyy-MM-dd') AS week_start_date
-           , CONVERT(VARCHAR, DATEADD(dd, -(DATEPART(dw, (GETDATE() + n.n)) - 1), (GETDATE() + n.n)), 112) AS week_start_date_id
-           , FORMAT(DATEADD(dd, 7 - DATEPART(dw, (GETDATE() + n.n)), (GETDATE() + n.n)), 'yyyy-MM-dd') AS week_end_date
-           , CONVERT(VARCHAR, DATEADD(dd, 7 - DATEPART(dw, (GETDATE() + n.n)), (GETDATE() + n.n)), 112) AS week_end_date_id
-           , '' AS weekday_flag
-           , '' AS weekend_flag
-           , '' AS last_day_in_week_flag
-           , '' AS month_number
-           , '' AS month_name
-           , '' AS month_abbreviation
-           , '' AS month_last_day_number
-           , '' AS month_start_date
-           , '' AS month_start_date_id
-           , '' AS month_end_date
-           , '' AS month_end_date_id
-           , '' AS month_end_date_previous
-           , '' AS month_end_date_previous_id
-           , '' AS last_day_in_month_flag
-           , '' AS quarter_number
-           , '' AS quarter_name
-           , '' AS quarter_code
-           , '' AS quarter_start_date
-           , '' AS quarter_start_date_id
-           , '' AS quarter_end_date
-           , '' AS quarter_end_date_id
-           , '' AS last_day_in_quarter_flag
-           , '' AS year_number
-           , '' AS year_start_date
-           , '' AS year_start_date_id
-           , '' AS year_end_date
-           , '' AS year_end_date_id
-           , '' AS yyyymm
-           , '' AS last_day_in_year_flag
-           , '' AS holiday_ind
-           , '' AS holiday_name
-  FROM dbo.Nums AS n;
+SELECT CONVERT(VARCHAR, (@v_first_date + n.n), 112) AS date_id
+     , FORMAT((@v_first_date + n.n), 'yyyy-MM-dd') AS day_date
+     , DATEPART(WEEKDAY, (@v_first_date + n.n)) AS day_number_in_week
+     , DAY((@v_first_date + n.n)) AS day_number_in_month
+     , DATEPART(dayofyear, (@v_first_date + n.n)) AS day_number_in_year
+     , DATENAME(WEEKDAY, (@v_first_date + n.n)) AS day_name
+     , FORMAT((@v_first_date + n.n), 'ddd') AS day_abbreviation
+     , 1 AS process_day_ind
+     , DATENAME(WEEK, (@v_first_date + n.n)) AS week_number_in_year
+     , FORMAT(DATEADD(dd, -(DATEPART(dw, (@v_first_date + n.n)) - 1), (@v_first_date + n.n)), 'yyyy-MM-dd') AS week_start_date
+     , CONVERT(VARCHAR, DATEADD(dd, -(DATEPART(dw, (@v_first_date + n.n)) - 1), (@v_first_date + n.n)), 112) AS week_start_date_id
+     , FORMAT(DATEADD(dd, 7 - DATEPART(dw, (@v_first_date + n.n)), (@v_first_date + n.n)), 'yyyy-MM-dd') AS week_end_date
+     , CONVERT(VARCHAR, DATEADD(dd, 7 - DATEPART(dw, (@v_first_date + n.n)), (@v_first_date + n.n)), 112) AS week_end_date_id
+     , NULL AS weekday_flag
+     , NULL AS weekend_flag
+     , NULL AS last_day_in_week_flag
+     , NULL AS month_number
+     , NULL AS month_name
+     , NULL AS month_abbreviation
+     , NULL AS month_last_day_number
+     , NULL AS month_start_date
+     , NULL AS month_start_date_id
+     , NULL AS month_end_date
+     , NULL AS month_end_date_id
+     , NULL AS month_end_date_previous
+     , NULL AS month_end_date_previous_id
+     , NULL AS last_day_in_month_flag
+     , NULL AS quarter_number
+     , NULL AS quarter_name
+     , NULL AS quarter_code
+     , NULL AS quarter_start_date
+     , NULL AS quarter_start_date_id
+     , NULL AS quarter_end_date
+     , NULL AS quarter_end_date_id
+     , NULL AS last_day_in_quarter_flag
+     , NULL AS year_number
+     , NULL AS year_start_date
+     , NULL AS year_start_date_id
+     , NULL AS year_end_date
+     , NULL AS year_end_date_id
+     , NULL AS yyyymm
+     , NULL AS last_day_in_year_flag
+     , NULL AS holiday_ind -- Challenge field
+     , NULL AS holiday_name -- Challenge field
+  FROM dbo.Nums AS n
+  WHERE n.n <= (365 * @v_num_years)
+  ORDER BY 1;
+
+
+
+-- 3) Reload the default date record
+
+INSERT INTO dbo.DateDim
+SELECT 99991231 AS date_id
+     , '9999-12-31' AS day_date
+     , 0 AS day_number_in_week
+     , 0 AS day_number_in_month
+     , 0 AS day_number_in_year
+     , 'NA' AS day_name
+     , 'NA' AS day_abbreviation
+     , 1 AS process_day_ind
+     , 0 AS week_number_in_year
+     , '9999-12-31' AS week_start_date
+     , 99991231 AS week_start_date_id
+     , '9999-12-31' AS week_end_date
+     , 99991231 AS week_end_date_id
+     , NULL AS weekday_flag
+     , NULL AS weekend_flag
+     , NULL AS last_day_in_week_flag
+     , NULL AS month_number
+     , NULL AS month_name
+     , NULL AS month_abbreviation
+     , NULL AS month_last_day_number
+     , NULL AS month_start_date
+     , NULL AS month_start_date_id
+     , NULL AS month_end_date
+     , NULL AS month_end_date_id
+     , NULL AS month_end_date_previous
+     , NULL AS month_end_date_previous_id
+     , NULL AS last_day_in_month_flag
+     , NULL AS quarter_number
+     , NULL AS quarter_name
+     , NULL AS quarter_code
+     , NULL AS quarter_start_date
+     , NULL AS quarter_start_date_id
+     , NULL AS quarter_end_date
+     , NULL AS quarter_end_date_id
+     , NULL AS last_day_in_quarter_flag
+     , NULL AS year_number
+     , NULL AS year_start_date
+     , NULL AS year_start_date_id
+     , NULL AS year_end_date
+     , NULL AS year_end_date_id
+     , NULL AS yyyymm
+     , NULL AS last_day_in_year_flag
+     , NULL AS holiday_ind -- Challenge field
+     , NULL AS holiday_name -- Challenge field
+	 ;
 
   END;
+
 GO
 
 
