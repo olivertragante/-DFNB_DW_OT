@@ -6,7 +6,7 @@ MODIFICATION LOG:
 Ver      Date        Author        Description
 -----   ----------   -----------   -------------------------------------------------------------------------------
 1.0     3/15/2021   Oliver Tragante       1. Built this table for LDS BC IT240
-1.1     3/26/2021   Oliver Tragante       1. Added PK and NOT NULL constraints 
+1.1     3/26/2021   Oliver Tragante       1. Added PK and NOT NULL constraints  
 
 
 
