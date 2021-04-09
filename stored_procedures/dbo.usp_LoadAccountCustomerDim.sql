@@ -25,7 +25,7 @@ PURPOSE: Create and Load the dbo.Nums table
 MODIFICATION LOG:
 Ver      Date        Author        Description
 -----   ----------   -----------   -------------------------------------------------------------------------------
-1.0     03/25/2021   Oliver Tragante       1. Built this table for LDS BC IT243
+1.0     03/25/2021   Oliver Tragante       1. Built this table for LDS BC IT243 
 
 
 
