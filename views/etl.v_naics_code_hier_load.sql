@@ -25,7 +25,7 @@ PURPOSE: Create the etl.v_naics_code_hier_load view
 MODIFICATION LOG:
 Ver      Date        Author        Description
 -----   ----------   -----------   -------------------------------------------------------------------------------
-1.0     03/03/2021   Grace Chu       1. Built this view for LDS BC IT240
+1.0     03/25/2021   Oliver Tragante       1. Built this view for LDS BC IT240
      
 
 RUNTIME: 
