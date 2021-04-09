@@ -26,7 +26,7 @@ PURPOSE: Handle referential integrity
 MODIFICATION LOG:
 Ver      Date        Author        Description
 -----   ----------   -----------   -------------------------------------------------------------------------------
-1.0     11/23/2019   JJAUSSI       1. Built this table for LDS BC IT243
+1.0     11/23/2019   JJAUSSI       1. Built this table for LDS BC IT243 
 
 
 
